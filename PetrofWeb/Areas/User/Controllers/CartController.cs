@@ -127,8 +127,8 @@
                 var domain = Request.Scheme + "://" + Request.Host.Value + "/";
                 var options = new SessionCreateOptions
                 {
-                    SuccessUrl = domain + $"customer/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                    CancelUrl = domain + "customer/cart/index",
+                    SuccessUrl = domain + $"user/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                    CancelUrl = domain + "user/cart/index",
                     LineItems = new List<SessionLineItemOptions>(),
                     Mode = "payment",
                 };
@@ -140,7 +140,7 @@
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             UnitAmount = (long)(item.Price * 100),
-                            Currency = "usd",
+                            Currency = "eur",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = item.Product.Title
