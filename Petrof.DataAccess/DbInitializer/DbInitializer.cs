@@ -39,17 +39,17 @@
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "admin@dotnetmastery.com",
-                    Email = "admin@dotnetmastery.com",
-                    Name = "Bhrugen Patel",
+                    UserName = "slav@petrov.starcraft",
+                    Email = "slav@petrov.starcraft",
+                    Name = "Slav Petrov",
                     PhoneNumber = "1112223333",
-                    StreetAddress = "Test 123 Ave",
-                    State = "IL",
-                    PostalCode = "23422",
-                    City = "Chicago"
+                    StreetAddress = "Nezavisimost Str.",
+                    State = "TX",
+                    PostalCode = "9300",
+                    City = "Dobrich"
                 }, "Admin123*").GetAwaiter().GetResult();
 
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@dotnetmastery.com");
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "slav@petrov.starcraft");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
             return;
