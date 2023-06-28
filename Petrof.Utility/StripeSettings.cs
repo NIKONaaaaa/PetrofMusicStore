@@ -1,4 +1,4 @@
-﻿namespace Bulky.Utility
+﻿namespace Petrof.Utility
 {
     public class StripeSettings
     {

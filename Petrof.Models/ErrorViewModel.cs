@@ -1,4 +1,4 @@
-namespace PetrofWeb.Models
+namespace Petrof.Models
 {
     public class ErrorViewModel
     {

@@ -1,4 +1,4 @@
-﻿namespace Bulky.Utility
+﻿namespace Petrof.Utility
 {
     public static class SD
     {
