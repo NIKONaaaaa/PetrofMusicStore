@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PetrofWeb.Models;
+using Petrof.Models;
 using System.Diagnostics;
 
 namespace PetrofWeb.Areas.User.Controllers
