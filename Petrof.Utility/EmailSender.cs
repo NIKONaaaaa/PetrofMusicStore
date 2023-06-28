@@ -16,7 +16,7 @@
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
             //var client = new SendGridClient(SendGridSecret);
-            //var from = new EmailAddress("company@mail.address", "Bulky Book");
+            //var from = new EmailAddress("company@mail.address", "Petrof Music Store");
             //var to = new EmailAddress(email);
             //var message = MailHelper.CreateSingleEmail(from, to, subject, "", htmlMessage);
             //return client.SendEmailAsync(message);

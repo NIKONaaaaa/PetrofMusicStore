@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <Folder Include="DbInitializer\" />
+    <Folder Include="Migrations\" />
     <Folder Include="Repository\IRepository\" />
   </ItemGroup>
 

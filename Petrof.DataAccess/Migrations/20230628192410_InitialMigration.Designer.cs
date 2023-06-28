@@ -12,8 +12,8 @@ using Petrof.DataAccess.Data;
 namespace Petrof.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230628185927_InitialDbMigration")]
-    partial class InitialDbMigration
+    [Migration("20230628192410_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
