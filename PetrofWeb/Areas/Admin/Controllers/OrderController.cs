@@ -10,7 +10,7 @@
     using Stripe.Checkout;
     using System.Security.Claims;
 
-    [Area("admin")]
+    [Area("Admin")]
     [Authorize]
     public class OrderController : Controller
     {
