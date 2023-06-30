@@ -16,6 +16,7 @@
             _db = db;
             this.dbSet = _db.Set<T>();
             _db.Products.Include(u => u.Category);
+            _db.Products.Include(u => u.Brand);
         }
 
         public void Add(T entity)
