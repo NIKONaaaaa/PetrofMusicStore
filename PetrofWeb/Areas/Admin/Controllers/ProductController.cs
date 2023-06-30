@@ -27,7 +27,7 @@
 
         public IActionResult Upsert(int? id)
         {
-            ProductVM productVM = new()
+            ProductViewModel productViewModel = new()
             {
                 CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }),
                 Product = new Product()
@@ -35,27 +35,27 @@
             if (id == null || id == 0)
             {
                 //create
-                return View(productVM);
+                return View(productViewModel);
             }
             else
             {
                 //update
-                productVM.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages");
-                return View(productVM);
+                productViewModel.Product = _unitOfWork.Product.Get(u => u.Id == id, includeProperties: "ProductImages");
+                return View(productViewModel);
             }
         }
         [HttpPost]
-        public IActionResult Upsert(ProductVM productVM, List<IFormFile> files)
+        public IActionResult Upsert(ProductViewModel productViewModel, List<IFormFile> files)
         {
             if (ModelState.IsValid)
             {
-                if (productVM.Product.Id == 0)
+                if (productViewModel.Product.Id == 0)
                 {
-                    _unitOfWork.Product.Add(productVM.Product);
+                    _unitOfWork.Product.Add(productViewModel.Product);
                 }
                 else
                 {
-                    _unitOfWork.Product.Update(productVM.Product);
+                    _unitOfWork.Product.Update(productViewModel.Product);
                 }
 
                 _unitOfWork.Save();
@@ -66,7 +66,7 @@
                     foreach (IFormFile file in files)
                     {
                         string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string productPath = @"images\products\product-" + productVM.Product.Id;
+                        string productPath = @"images\products\product-" + productViewModel.Product.Id;
                         string finalPath = Path.Combine(wwwRootPath, productPath);
 
                         if (!Directory.Exists(finalPath))
@@ -82,18 +82,18 @@
                         ProductImage productImage = new()
                         {
                             ImageUrl = @"\" + productPath + @"\" + fileName,
-                            ProductId = productVM.Product.Id
+                            ProductId = productViewModel.Product.Id
                         };
 
-                        if (productVM.Product.ProductImages == null)
+                        if (productViewModel.Product.ProductImages == null)
                         {
-                            productVM.Product.ProductImages = new List<ProductImage>();
+                            productViewModel.Product.ProductImages = new List<ProductImage>();
                         }
 
-                        productVM.Product.ProductImages.Add(productImage);
+                        productViewModel.Product.ProductImages.Add(productImage);
                     }
 
-                    _unitOfWork.Product.Update(productVM.Product);
+                    _unitOfWork.Product.Update(productViewModel.Product);
                     _unitOfWork.Save();
                 }
 
@@ -102,12 +102,12 @@
             }
             else
             {
-                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
+                productViewModel.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                 {
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
-                return View(productVM);
+                return View(productViewModel);
             }
         }
 
