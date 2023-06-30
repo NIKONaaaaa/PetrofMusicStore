@@ -24,6 +24,7 @@
                 objFromDb.Price100 = obj.Price100;
                 objFromDb.Description = obj.Description;
                 objFromDb.CategoryId = obj.CategoryId;
+                objFromDb.BrandId = obj.BrandId;
                 objFromDb.Author = obj.Author;
                 objFromDb.ProductImages = obj.ProductImages;
             }

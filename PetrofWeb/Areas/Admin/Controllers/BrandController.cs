@@ -8,17 +8,17 @@
 
     [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
-    public class BrandControllers : Controller
+    public class BrandController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        public BrandControllers(IUnitOfWork unitOfWork)
+        public BrandController(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Brand> objCategoryList = _unitOfWork.Brand.GetAll().ToList();
-            return View(objCategoryList);
+            List<Brand> objBrandList = _unitOfWork.Brand.GetAll().ToList();
+            return View(objBrandList);
         }
 
         public IActionResult Create()
@@ -32,7 +32,7 @@
             {
                 _unitOfWork.Brand.Add(obj);
                 _unitOfWork.Save();
-                TempData["success"] = "Category created successfully";
+                TempData["success"] = "Brand created successfully";
                 return RedirectToAction("Index", "Brand");
             }
             return View();

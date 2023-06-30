@@ -21,7 +21,7 @@
         }
         public IActionResult Index()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand").ToList();
             return View(objProductList);
         }
 
@@ -30,6 +30,7 @@
             ProductViewModel productViewModel = new()
             {
                 CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }),
+                BrandList = _unitOfWork.Brand.GetAll().Select(u => new SelectListItem { Text = u.Name, Value = u.Id.ToString() }),
                 Product = new Product()
             };
             if (id == null || id == 0)
@@ -107,6 +108,11 @@
                     Text = u.Name,
                     Value = u.Id.ToString()
                 });
+                productViewModel.BrandList = _unitOfWork.Brand.GetAll().Select(u => new SelectListItem
+                {
+                    Text = u.Name,
+                    Value = u.Id.ToString()
+                });
                 return View(productViewModel);
             }
         }
@@ -138,7 +144,7 @@
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> objProductList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand").ToList();
             return Json(new { data = objProductList });
         }
         [HttpDelete]

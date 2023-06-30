@@ -36,6 +36,10 @@
         [ForeignKey("CategoryId")]
         [ValidateNever]
         public Category Category { get; set; }
+        public int BrandId { get; set; }
+        [ForeignKey("BrandId")]
+        [ValidateNever]
+        public Brand Brand { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
     }

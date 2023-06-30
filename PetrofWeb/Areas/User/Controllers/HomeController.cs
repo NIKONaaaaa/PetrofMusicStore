@@ -24,7 +24,7 @@
 
         public IActionResult Index()
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages");
             return View(productList);
         }
 
@@ -32,7 +32,7 @@
         {
             ShoppingCart cart = new()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,Brand,ProductImages"),
                 Count = 1,
                 ProductId = productId
             };
