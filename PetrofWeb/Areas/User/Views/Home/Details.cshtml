@@ -5,8 +5,7 @@
         <div class="card-header bg-secondary bg-gradient text-primary py-4">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3 class="text-primary text-uppercase">@Model.Product.Title</h3>
-                    <p class="text-primary-50 fw-semibold mb-0">by @Model.Product.Author</p>
+                    <h3 class="text-primary text-uppercase">@Model.Product.Name</h3>
                 </div>
             </div>
         </div>
@@ -21,7 +20,7 @@
                 </div>
                 <div class="row">
                     <div class="row justify-content-center">
-                        <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3" style="height:1920px; width:1080px;">
+                        <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3" style="height:1280px; width:720px;">
                             @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
                             {
                                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="0">
@@ -52,27 +51,27 @@
                                     </button>
                                 </div>
                             }
-                            <div class="col-12 col-lg-6 py-4">
-                                <iframe width="854" height="477" src="https://www.youtube.com/embed/v0NId9gPKXU" allowfullscreen></iframe>
-                            </div>
+                            @if (Model.Product.VideoUrl != null)
+                            {
+                                <div class="col-12 col-lg-6 py-4">
+                                    <iframe width="560" height="315" src="@Model.Product.VideoUrl" allowfullscreen></iframe>
+                                </div>
+                            }
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
-                        <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.Product.Category.Name</span>
-                        </div>
                         <div class="row ps-2">
+                            <div class="row pl-2 my-3">
+                                <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
+                            </div>
                             <h6 class="text-primary text-opacity-50  pb-2">
                                 <h3>
                                     Price:
                                     <span>
-                                        @Model.Product.ListPrice.ToString("c")
+                                        @Model.Product.Price.ToString("c")
                                     </span>
                                 </h3>
                             </h6>
-                            <div class="row pl-2 my-3">
-                                <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
-                            </div>
                             @{
                                 var counterVisible = "display:none;";
                             }
@@ -105,4 +104,5 @@
                 </div>
             </div>
         </div>
+    </div>
 </form>

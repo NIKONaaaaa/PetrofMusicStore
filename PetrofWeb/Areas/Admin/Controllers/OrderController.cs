@@ -153,7 +153,7 @@
                         Currency = "eur",
                         ProductData = new SessionLineItemPriceDataProductDataOptions
                         {
-                            Name = item.Product.Title
+                            Name = item.Product.Name
                         }
                     },
                     Quantity = item.Count

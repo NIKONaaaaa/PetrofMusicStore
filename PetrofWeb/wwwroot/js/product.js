@@ -8,11 +8,11 @@ function loadDataTable() {
     dataTable = $('#tblData').DataTable({
         "ajax": { url: '/admin/product/getall' },
         "columns": [
-            { data: 'title', "width": "25%" },
-            { data: 'isbn', "width": "15%" },
-            { data: 'listPrice', "width": "10%" },
-            { data: 'author', "width": "15%" },
-            { data: 'category.name', "width": "10%" },
+            { data: 'name', "width": "30%" },
+            { data: 'category.name', "width": "15%" },
+            { data: 'brand.name', "width": "10%" },
+            { data: 'weight', "width": "5%" },
+            { data: 'price', "width": "15%" },
             {
                 data: 'id',
                 "render": function (data) {

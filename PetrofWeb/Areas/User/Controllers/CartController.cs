@@ -143,7 +143,7 @@
                             Currency = "eur",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
-                                Name = item.Product.Title
+                                Name = item.Product.Name
                             }
                         },
                         Quantity = item.Count
@@ -227,20 +227,21 @@
             return RedirectToAction(nameof(Index));
         }
 
-        private double GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
+        private decimal GetPriceBasedOnQuantity(ShoppingCart shoppingCart)
         {
-            if (shoppingCart.Count <= 50)
-            {
-                return shoppingCart.Product.Price;
-            }
-            else if (shoppingCart.Count <= 100)
-            {
-                return shoppingCart.Product.Price50;
-            }
-            else
-            {
-                return shoppingCart.Product.Price100;
-            }
+            //if (shoppingCart.Count <= 50)
+            //{
+            //    return shoppingCart.Product.Price;
+            //}
+            //else if (shoppingCart.Count <= 100)
+            //{
+            //    return shoppingCart.Product.Price50;
+            //}
+            //else
+            //{
+            //    return shoppingCart.Product.Price100;
+            //}
+            return shoppingCart.Product.Price;
         }
     }
 }

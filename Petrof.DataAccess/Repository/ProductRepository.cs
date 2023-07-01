@@ -3,6 +3,7 @@
     using Petrof.DataAccess.Data;
     using Petrof.DataAccess.Repository.IRepository;
     using Petrof.Models;
+    using Petrof.Utility;
     public class ProductRepository : Repository<Product>, IProductRepository
     {
         private ApplicationDbContext _db;
@@ -16,17 +17,17 @@
             var objFromDb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
             if (objFromDb != null)
             {
-                objFromDb.Title = obj.Title;
-                objFromDb.ISBN = obj.ISBN;
-                objFromDb.Price = obj.Price;
-                objFromDb.Price50 = obj.Price50;
-                objFromDb.ListPrice = obj.ListPrice;
-                objFromDb.Price100 = obj.Price100;
+                objFromDb.Name = obj.Name;
                 objFromDb.Description = obj.Description;
                 objFromDb.CategoryId = obj.CategoryId;
                 objFromDb.BrandId = obj.BrandId;
-                objFromDb.Author = obj.Author;
+                objFromDb.Weight = obj.Weight;
+                objFromDb.Price = obj.Price;
                 objFromDb.ProductImages = obj.ProductImages;
+                if (obj.VideoUrl != null)
+                {
+                    objFromDb.VideoUrl = LinkTransformer.Transform(obj.VideoUrl);
+                }
             }
         }
     }
