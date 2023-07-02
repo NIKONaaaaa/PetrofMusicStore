@@ -20,7 +20,7 @@
                 </div>
                 <div class="row justify-content-center">
                     <div class="row justify-content-center">
-                        <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3" style="height:854px; width:477px;">
+                        <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3" style="width:854px; height:477px;">
                             @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
                             {
                                 <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="0">
@@ -37,7 +37,7 @@
                                        .Select((image, index) => new { Image = image, Index = index }))
                                         {
                                             <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
-                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block w-100" alt="...">
+                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block" style="width:854px; height:477px;" alt="...">
                                             </div>
                                         }
                                     </div>
@@ -51,12 +51,7 @@
                                     </button>
                                 </div>
                             }
-                            @if (Model.Product.VideoUrl != null)
-                            {
-                                <div class="col-12 col-lg-6 py-4">
-                                    <iframe width="560" height="315" src="@Model.Product.VideoUrl" allowfullscreen></iframe>
-                                </div>
-                            }
+                           
                         </div>
                     </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
@@ -64,7 +59,13 @@
                             <div class="row pl-2 my-3">
                                 <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
                             </div>
-                            <h6 class="text-primary text-opacity-50  pb-2">
+                            @if (Model.Product.VideoUrl != null)
+                            {
+                                <div class="col-12 col-lg-6 py-4">
+                                    <iframe width="560" height="315" src="@Model.Product.VideoUrl" allowfullscreen></iframe>
+                                </div>
+                            }
+                            <h6 class="text-primary text-opacity-50 pb-2">
                                 <h3>
                                     Price:
                                     <span>
@@ -94,7 +95,7 @@
                             <div class="row">
                                 <div class="col-12 col-md-6 pb-1">
                                     <button type="submit"
-                                            class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
+                                            class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
                                         Add to Cart
                                     </button>
                                 </div>

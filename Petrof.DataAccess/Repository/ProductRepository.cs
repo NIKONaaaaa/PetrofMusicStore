@@ -24,10 +24,7 @@
                 objFromDb.Weight = obj.Weight;
                 objFromDb.Price = obj.Price;
                 objFromDb.ProductImages = obj.ProductImages;
-                if (obj.VideoUrl != null)
-                {
-                    objFromDb.VideoUrl = LinkTransformer.Transform(obj.VideoUrl);
-                }
+                objFromDb.VideoUrl = LinkTransformer.Transform(obj.VideoUrl);
             }
         }
     }
