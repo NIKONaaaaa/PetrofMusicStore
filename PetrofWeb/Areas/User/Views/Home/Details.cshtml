@@ -59,7 +59,8 @@
                             <div class="row pl-2 my-3">
                                 <p class="text-secondary lh-sm">@Html.Raw(Model.Product.Description)</p>
                             </div>
-                            @if (Model.Product.VideoUrl != null && Model.Product.VideoUrl != "")
+                            @*@if (Model.Product.VideoUrl != null && Model.Product.VideoUrl != "")*@
+                            @if (!string.IsNullOrEmpty(Model.Product.VideoUrl))
                             {
                                 <div class="col-12 col-lg-6 py-4">
                                     <iframe width="560" height="315" src="@Model.Product.VideoUrl" allowfullscreen></iframe>
