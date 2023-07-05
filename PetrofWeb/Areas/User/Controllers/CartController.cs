@@ -101,7 +101,7 @@
                     _unitOfWork.ShoppingCart.Remove(cart);
                     _unitOfWork.Save();
                 }
-                TempData["info"] = "A product in your cart was sold out while you were browsing and has been removed!";
+                TempData["warning"] = "A product in your cart was sold out while you were browsing and has been removed!";
                 return RedirectToAction(nameof(Summary));
             }
 
