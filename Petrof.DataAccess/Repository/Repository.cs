@@ -6,6 +6,7 @@
     using Petrof.DataAccess.Data;
     using Petrof.DataAccess.Repository.IRepository;
     using Microsoft.EntityFrameworkCore;
+    
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly ApplicationDbContext _db;
@@ -38,6 +39,7 @@
                     query = query.Include(includeProp);
                 }
             }
+         
             return query.ToList();
         }
 

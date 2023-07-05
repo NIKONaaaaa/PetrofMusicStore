@@ -25,6 +25,7 @@
                 objFromDb.Price = obj.Price;
                 objFromDb.ProductImages = obj.ProductImages;
                 objFromDb.VideoUrl = LinkTransformer.Transform(obj.VideoUrl);
+                objFromDb.InStock = true;
             }
         }
     }

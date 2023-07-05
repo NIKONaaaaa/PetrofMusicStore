@@ -27,5 +27,6 @@
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
         public string? VideoUrl { get; set; }
+        public bool InStock { get; set; }
     }
 }

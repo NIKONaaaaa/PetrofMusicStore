@@ -9,6 +9,9 @@
     using Microsoft.AspNetCore.Mvc;
     using Stripe.Checkout;
     using System.Security.Claims;
+    using Microsoft.IdentityModel.Tokens;
+    using Stripe;
+
     [Area("User")]
     [Authorize]
     public class CartController : Controller
@@ -87,6 +90,20 @@
             ShoppingCartVM.OrderHeader.ApplicationUserId = userId;
 
             ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
+
+            if (ShoppingCartVM.ShoppingCartList.Any(u => u.Product.InStock == false))
+            {
+                ////Remove concurrent purchase attempt
+                ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product");
+                List<ShoppingCart> carts = ShoppingCartVM.ShoppingCartList.Where(u => u.Product.InStock == false).ToList();
+                foreach (var cart in carts)
+                {
+                    _unitOfWork.ShoppingCart.Remove(cart);
+                    _unitOfWork.Save();
+                }
+                TempData["info"] = "A product in your cart was sold out while you were browsing and has been removed!";
+                return RedirectToAction(nameof(Summary));
+            }
 
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
@@ -172,6 +189,17 @@
                 var service = new SessionService();
                 Session session = service.Get(orderHeader.SessionId);
 
+                ////Sell out products
+                List<ShoppingCart> carts = _unitOfWork.ShoppingCart
+                    .GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUser.Id, includeProperties: "Product")
+                    .Where(u => u.Product.InStock == true).ToList();
+                foreach (var cart in carts)
+                {
+                    cart.Product.InStock = false;
+                    _unitOfWork.ShoppingCart.Update(cart);
+                    _unitOfWork.Save();
+                }
+
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
                     _unitOfWork.OrderHeader.UpdateStripePaymentID(id, session.Id, session.PaymentIntentId);
@@ -182,7 +210,8 @@
                 HttpContext.Session.Clear();
             }
 
-            _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Petrof Music Store", $"<p>New Order Created - {orderHeader.Id}</p>");
+            //Email sender implementation
+            //_emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New Order - Petrof Music Store", $"<p>New Order Created - {orderHeader.Id}</p>");
 
             List<ShoppingCart> shoppingCarts = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == orderHeader.ApplicationUserId).ToList();
 
