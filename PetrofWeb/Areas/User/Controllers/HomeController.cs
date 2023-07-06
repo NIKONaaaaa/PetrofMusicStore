@@ -29,10 +29,14 @@
 
         public IActionResult ProductList(string? productType)
         {
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages");
-            if (productType != null)
+            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages").Where(u => u.InStock == true);
+            if (productType != null && productType != "sold")
             {
                 productList = productList.Where(u => u.Category.Name == productType);
+            }
+            else if (productType == "sold")
+            {
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages").Where(u => u.InStock == false);
             }
             return View(productList);
         }
