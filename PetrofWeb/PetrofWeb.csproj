@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ViewComponents\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Petrof.DataAccess\Petrof.DataAccess.csproj" />
     <ProjectReference Include="..\Petrof.Models\Petrof.Models.csproj" />
     <ProjectReference Include="..\Petrof.Utility\Petrof.Utility.csproj" />

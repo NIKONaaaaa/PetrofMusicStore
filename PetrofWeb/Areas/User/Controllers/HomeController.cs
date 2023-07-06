@@ -24,6 +24,11 @@
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult ProductList()
+        {
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages");
             return View(productList);
         }

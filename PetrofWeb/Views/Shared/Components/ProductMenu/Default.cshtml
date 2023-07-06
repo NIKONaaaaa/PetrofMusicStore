@@ -1,0 +1,8 @@
+﻿@model List<Category>
+
+@foreach (var category in Model)
+{
+    <li class="nav-item">
+        <a class="dropdown-item" asp-area="User" asp-controller="Home" asp-action="ProductList">@category.Name</a>
+    </li>
+}
