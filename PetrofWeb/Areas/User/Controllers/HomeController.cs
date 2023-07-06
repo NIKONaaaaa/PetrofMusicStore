@@ -27,9 +27,13 @@
             return View();
         }
 
-        public IActionResult ProductList()
+        public IActionResult ProductList(string? productType)
         {
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages");
+            if (productType != null)
+            {
+                productList = productList.Where(u => u.Category.Name == productType);
+            }
             return View(productList);
         }
 
