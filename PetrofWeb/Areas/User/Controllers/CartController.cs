@@ -195,9 +195,12 @@
                     .Where(u => u.Product.InStock == true).ToList();
                 foreach (var cart in carts)
                 {
-                    cart.Product.InStock = false;
-                    _unitOfWork.ShoppingCart.Update(cart);
-                    _unitOfWork.Save();
+                    if (cart.Product.CategoryId != 5)
+                    {
+                        cart.Product.InStock = false;
+                        _unitOfWork.ShoppingCart.Update(cart);
+                        _unitOfWork.Save();
+                    }
                 }
 
                 if (session.PaymentStatus.ToLower() == "paid")

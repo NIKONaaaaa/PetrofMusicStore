@@ -64,9 +64,13 @@
 
             if (cartFromDatabase != null)
             {
-                cartFromDatabase.Count += shoppingCart.Count;
-                _unitOfWork.ShoppingCart.Update(cartFromDatabase);
-                _unitOfWork.Save();
+                var product = _unitOfWork.Product.Get(u => u.Id == cartFromDatabase.ProductId);
+                if (cartFromDatabase.ProductId != shoppingCart.ProductId || product.CategoryId == 5)
+                {
+                    cartFromDatabase.Count += shoppingCart.Count;
+                    _unitOfWork.ShoppingCart.Update(cartFromDatabase);
+                    _unitOfWork.Save();
+                }
             }
             else
             {
@@ -76,7 +80,7 @@
             }
             TempData["success"] = "Cart updated successfully";
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(ProductList));
         }
 
         public IActionResult Privacy()
