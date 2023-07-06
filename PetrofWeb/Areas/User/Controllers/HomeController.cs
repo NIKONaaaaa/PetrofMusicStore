@@ -65,7 +65,8 @@
             if (cartFromDatabase != null)
             {
                 var product = _unitOfWork.Product.Get(u => u.Id == cartFromDatabase.ProductId);
-                if (cartFromDatabase.ProductId != shoppingCart.ProductId || product.CategoryId == 5)
+                var categoriesFromDb = _unitOfWork.Category.Get(u => u.Name.ToLower() == "accessories");
+                if (cartFromDatabase.ProductId != shoppingCart.ProductId || product.CategoryId == categoriesFromDb.Id)
                 {
                     cartFromDatabase.Count += shoppingCart.Count;
                     _unitOfWork.ShoppingCart.Update(cartFromDatabase);

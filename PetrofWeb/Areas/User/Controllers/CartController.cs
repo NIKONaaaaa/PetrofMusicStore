@@ -195,7 +195,8 @@
                     .Where(u => u.Product.InStock == true).ToList();
                 foreach (var cart in carts)
                 {
-                    if (cart.Product.CategoryId != 5)
+                    var categoriesFromDb = _unitOfWork.Category.Get(u => u.Name.ToLower() == "accessories");
+                    if (cart.Product.CategoryId != categoriesFromDb.Id)
                     {
                         cart.Product.InStock = false;
                         _unitOfWork.ShoppingCart.Update(cart);
