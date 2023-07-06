@@ -76,7 +76,7 @@
                             @{
                                 var counterVisible = "display:none;";
                             }
-                            @if (Model.Product.Id <= 1)
+                            @if (Model.Product.Category.Name.ToLower() == "accessories")
                             {
                                 counterVisible = "display:block;";
                             }
@@ -92,7 +92,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
+                            @{
+                                var addToCartVisible = "display:block;";
+                            }
+                            @if (Model.Product.InStock == false)
+                            {
+                                addToCartVisible = "display:none;";
+                            }
+                            <div class="row" style="@addToCartVisible">
                                 <div class="col-12 col-md-6 pb-1">
                                     <button type="submit"
                                             class="btn btn-primary bg-gradient w-100 py-2 text-uppercase fw-semibold">
