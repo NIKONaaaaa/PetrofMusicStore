@@ -69,7 +69,7 @@
                                 <h3>
                                     Price:
                                     <span>
-                                        @Model.Product.Price.ToString("c")
+                                        @Model.Product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
                                     </span>
                                 </h3>
                             </h6>

@@ -23,7 +23,7 @@
                                 <p class="text-dark text-opacity-75 text-center mb-0">
                                     List Price:
                                     <span>
-                                        @product.Price.ToString("c")
+                                        @product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
                                     </span>
                                 </p>
                             </div>

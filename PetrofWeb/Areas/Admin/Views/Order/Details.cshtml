@@ -206,13 +206,12 @@
                                     <li class="list-group-item d-flex justify-content-between p-2">
                                         <div class="row container">
                                             <div class="col-8">
-
                                                 <h6 class="my-0 text-primary">@detail.Product.Name</h6>
-                                                <small class="text-muted">Price : @detail.Price.ToString("c")</small><br />
+                                                <small class="text-muted">Price : @detail.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))</small><br />
                                                 <small class="text-muted">Quantity : @detail.Count</small>
                                             </div>
                                             <div class="col-4 text-end">
-                                                <p class="text-success">@((detail.Count * detail.Price).ToString("c"))</p>
+                                                <p class="text-success">@((detail.Count * detail.Price).ToString("c", CultureInfo.CreateSpecificCulture("fr-FR")))</p>
                                             </div>
                                         </div>
                                     </li>
@@ -223,7 +222,7 @@
                                             <h5 class="text-white">TOTAL </h5>
                                         </div>
                                         <div class="col-6 text-end">
-                                            <h5 class="text-white">@Model.OrderHeader.OrderTotal.ToString("c")</h5>
+                                            <h5 class="text-white">@Model.OrderHeader.OrderTotal.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))</h5>
                                         </div>
                                     </div>
                                 </li>
