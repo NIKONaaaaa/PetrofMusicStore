@@ -24,6 +24,7 @@
 
         public IActionResult Index()
         {
+            string country = LocalizationSetter.GetCountryByIP();
             return View();
         }
 
