@@ -2,6 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
     using System;
+    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     public class Product
@@ -26,7 +27,9 @@
         public Brand Brand { get; set; }
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
+        [DisplayName("Video URL")]
         public string? VideoUrl { get; set; }
+        [DisplayName("Available")]
         public bool InStock { get; set; }
     }
 }
