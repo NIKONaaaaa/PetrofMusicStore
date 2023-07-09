@@ -20,12 +20,19 @@
                                 <p class="card-title h5 text-dark text-opacity-75 text-uppercase text-center">@product.Name</p>
                             </div>
                             <div class="pl-1">
-                                <p class="text-dark text-opacity-75 text-center mb-0">
-                                    List Price:
-                                    <span>
-                                        @product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
-                                    </span>
-                                </p>
+                                @if (product.InStock == true)
+                                {
+                                    <p class="text-dark text-opacity-75 text-center mb-0">
+                                        List Price:
+                                        <span>
+                                            @product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
+                                        </span>
+                                    </p>
+                                }
+                                else if (product.InStock == false)
+                                {
+                                    <p class="text-dark text-opacity-75 text-center mb-0">Sold</p>
+                                }
                             </div>
                         </div>
                         <div>
