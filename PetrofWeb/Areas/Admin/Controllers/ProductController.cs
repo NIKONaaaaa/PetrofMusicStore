@@ -135,7 +135,7 @@
 
                 _unitOfWork.ProductImage.Remove(imageToBeDeleted);
                 _unitOfWork.Save();
-                TempData["success"] = "Delete successfully!";
+                TempData["success"] = "Deleted successfully!";
             }
 
             return RedirectToAction(nameof(Upsert), new { id = productId });
