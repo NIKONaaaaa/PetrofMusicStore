@@ -11,6 +11,8 @@
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
+        [ValidateNever]
+        public string? ShopSessionId { get; set; }
 
         public DateTime OrderDate { get; set; }
         public DateTime ShippingDate { get; set; }
