@@ -30,6 +30,7 @@ builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(100);
+    options.Cookie.Name = ".PetrofMusicStore.Session";
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
@@ -49,7 +50,6 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseSession();
 app.UseStaticFiles();
 
 StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();

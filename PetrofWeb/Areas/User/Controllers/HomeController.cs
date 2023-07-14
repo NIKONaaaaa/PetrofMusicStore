@@ -9,6 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using System.Diagnostics;
     using System.Security.Claims;
+    using Microsoft.AspNetCore.Session;
 
     [Area("User")]
     public class HomeController : Controller
@@ -24,7 +25,9 @@
 
         public IActionResult Index()
         {
-            string country = LocalizationSetter.GetCountryByIP();
+            Guid guid = Guid.NewGuid();
+            HttpContext.Session.SetString("sessionId", guid.ToString());
+            string sessionId = HttpContext.Session.GetString("sessionId").ToString();
             return View();
         }
 
