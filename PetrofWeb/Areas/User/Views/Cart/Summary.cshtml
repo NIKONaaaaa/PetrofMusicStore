@@ -45,6 +45,15 @@
                             </div>
                             <div class="row my-1">
                                 <div class="col-3">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-9">
+                                    <input asp-for="OrderHeader.EmailAddress" class="form-control" />
+                                    <span asp-validation-for="OrderHeader.EmailAddress" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-3">
                                     <label>Street Address</label>
                                 </div>
                                 <div class="col-9">
@@ -107,10 +116,10 @@
             <div class="card-footer">
                 <div class="row">
                     <div class="col-12 col-md-8 pt-2">
-                        <p style="color:maroon; font-size:14px;">
-                            Estimate Arrival Date:
-                            @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
-                        </p>
+                        @*<p style="color:maroon; font-size:14px;">
+                        Estimate Arrival Date:
+                        @DateTime.Now.AddDays(7).ToShortDateString() - @DateTime.Now.AddDays(14).ToShortDateString()
+                        </p>*@
                     </div>
                     <div class="col-12 col-md-4">
                         <button type="submit" value="Place Order" class="btn btn-primary form-control">Place Order</button>

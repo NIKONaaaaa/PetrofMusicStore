@@ -91,6 +91,15 @@
                 orderHeaderFromDb.PaymentDateDue = DateTime.Now.AddDays(30);
             }
 
+            //strip address and name data
+            orderHeaderFromDb.Name = null;
+            orderHeaderFromDb.PhoneNumber = null;
+            orderHeaderFromDb.EmailAddress = null;
+            orderHeaderFromDb.StreetAddress = null;
+            orderHeaderFromDb.City = null;
+            orderHeaderFromDb.State = null;
+            orderHeaderFromDb.PostalCode = null;
+
             _unitOfWork.OrderHeader.Update(orderHeaderFromDb);
             _unitOfWork.Save();
             TempData["success"] = "Order Shipped Successfully.";
