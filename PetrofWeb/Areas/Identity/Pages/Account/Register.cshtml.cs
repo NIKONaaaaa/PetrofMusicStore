@@ -106,13 +106,19 @@ namespace PetrofWeb.Areas.Identity.Pages.Account
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList { get; set; }
 
-            [Required]
-            public string Name { get; set; }
+            [ValidateNever]
+            public string? Name { get; set; }
+            [ValidateNever]
             public string? StreetAddress { get; set; }
+            [ValidateNever]
             public string? City { get; set; }
+            [ValidateNever]
             public string? State { get; set; }
+            [ValidateNever]
             public string? PostalCode { get; set; }
+            [ValidateNever]
             public string? PhoneNumber { get; set; }
+            [ValidateNever]
             public int? CompanyId { get; set; }
 
             [ValidateNever]
