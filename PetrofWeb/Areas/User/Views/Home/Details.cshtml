@@ -37,7 +37,7 @@
                                        .Select((image, index) => new { Image = image, Index = index }))
                                         {
                                             <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
-                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block" style="width:854px; height:477px;" alt="...">
+                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block" style="width:auto; height:477px;" alt="...">
                                             </div>
                                         }
                                     </div>
