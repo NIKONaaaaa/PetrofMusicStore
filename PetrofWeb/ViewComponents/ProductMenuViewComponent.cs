@@ -15,6 +15,7 @@
         public async Task<IViewComponentResult> InvokeAsync()
         {
             List<Category> categories = _unitOfWork.Category.GetAll().ToList();
+            categories = categories.OrderBy(u => u.DisplayOrder).ToList();
             return View(categories);
         }
     }
