@@ -1,11 +1,17 @@
 ﻿namespace Petrof.Utility
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using System.Text.RegularExpressions;
     public class SimpleInputValidation
     {
+        private static readonly string pattern = @"/[a-zA-Z0-9@.\s]*";
+        public static bool ValidateString(string input)
+        {
+            Match match = Regex.Match(input, pattern);
+            if (match.Success)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
