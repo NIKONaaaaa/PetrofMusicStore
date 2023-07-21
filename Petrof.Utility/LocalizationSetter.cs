@@ -20,13 +20,13 @@
         public const string AUSLocal = "en-AU";
         public const string UKLocal = "en-GB";
 
-        public static string GetCountryByIP()
-        {
-            string info = new WebClient().DownloadString("http://ipinfo.io");
-            var jsonObject = JObject.Parse(info);
-            var country = jsonObject.Value<string>("country");
+        //public static string GetCountryByIP()
+        //{
+        //    string info = new WebClient().DownloadString("http://ipinfo.io");
+        //    var jsonObject = JObject.Parse(info);
+        //    var country = jsonObject.Value<string>("country");
 
-            return country;
-        }
+        //    return country;
+        //}
     }
 }
