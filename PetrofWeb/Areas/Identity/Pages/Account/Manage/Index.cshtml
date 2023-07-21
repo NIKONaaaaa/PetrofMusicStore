@@ -15,12 +15,14 @@
                 <input asp-for="Username" class="form-control" placeholder="Please choose your username." disabled />
                 <label asp-for="Username" class="form-label"></label>
             </div>
-            <div class="form-floating mb-3">
-                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number."/>
+            @*<div class="form-floating mb-3">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="Please enter your phone number." disabled/>
                 <label asp-for="Input.PhoneNumber" class="form-label"></label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
-            </div>
-            <button id="update-profile-button" type="submit" class="w-100 btn btn-lg btn-primary">Save</button>
+            </div>*@
+            <button id="update-profile-button" class="w-100 btn btn-sm btn-primary my-4" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">Change Password</button>
+            <button id="update-profile-button" class="w-100 btn btn-sm btn-primary my-4" asp-area="Identity" asp-page="/Account/Manage/PersonalData">Delete Personal Data</button>
+            <button id="update-profile-button" type="submit" class="w-100 btn btn-sm btn-primary">Save</button>
         </form>
     </div>
 </div>
