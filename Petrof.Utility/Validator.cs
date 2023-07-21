@@ -8,6 +8,10 @@
         public readonly static string Number = @"^[\d]+";
         public static bool Parse(string input, string pattern)
         {
+            if (string.IsNullOrEmpty(input))
+            {
+                return false;
+            }
             Match match = Regex.Match(input, pattern);
             return match.Success;
         }

@@ -9,9 +9,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Stripe.Checkout;
     using System.Security.Claims;
-    using Microsoft.IdentityModel.Tokens;
     using Stripe;
-
     [Area("User")]
     [Authorize]
     public class CartController : Controller
@@ -92,93 +90,97 @@
 
             ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
-            if (ShoppingCartVM.ShoppingCartList.Any(u => u.Product.InStock == false))
+            //TODO: Add validation here
+            bool state = Validator.Parse(ShoppingCartVM.OrderHeader.EmailAddress, Validator.Email);
+            if (state)
             {
-                ////Remove concurrent purchase attempt
-                ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product");
-                List<ShoppingCart> carts = ShoppingCartVM.ShoppingCartList.Where(u => u.Product.InStock == false).ToList();
-                foreach (var cart in carts)
+                if (ShoppingCartVM.ShoppingCartList.Any(u => u.Product.InStock == false))
                 {
-                    _unitOfWork.ShoppingCart.Remove(cart);
+                    ////Remove concurrent purchase attempt
+                    ShoppingCartVM.ShoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product");
+                    List<ShoppingCart> carts = ShoppingCartVM.ShoppingCartList.Where(u => u.Product.InStock == false).ToList();
+                    foreach (var cart in carts)
+                    {
+                        _unitOfWork.ShoppingCart.Remove(cart);
+                        _unitOfWork.Save();
+                    }
+                    TempData["warning"] = "A product in your cart was sold out while you were browsing and has been removed!";
+                    return RedirectToAction(nameof(Summary));
+                }
+
+                foreach (var cart in ShoppingCartVM.ShoppingCartList)
+                {
+                    cart.Price = GetPriceBasedOnQuantity(cart);
+                    ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+                }
+
+                if (applicationUser.CompanyId.GetValueOrDefault() == 0)
+                {
+                    ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
+                    ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
+                }
+                else
+                {
+                    ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
+                    ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
+                }
+
+                _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
+                _unitOfWork.Save();
+
+                foreach (var cart in ShoppingCartVM.ShoppingCartList)
+                {
+                    OrderDetail orderDetail = new()
+                    {
+                        ProductId = cart.ProductId,
+                        OrderHeaderId = ShoppingCartVM.OrderHeader.Id,
+                        Price = cart.Price,
+                        Count = cart.Count
+                    };
+
+                    _unitOfWork.OrderDetail.Add(orderDetail);
                     _unitOfWork.Save();
                 }
-                TempData["warning"] = "A product in your cart was sold out while you were browsing and has been removed!";
-                return RedirectToAction(nameof(Summary));
-            }
 
-            foreach (var cart in ShoppingCartVM.ShoppingCartList)
-            {
-                cart.Price = GetPriceBasedOnQuantity(cart);
-                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
-            }
-
-            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
-            {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusPending;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusPending;
-            }
-            else
-            {
-                ShoppingCartVM.OrderHeader.PaymentStatus = SD.PaymentStatusDelayedPayment;
-                ShoppingCartVM.OrderHeader.OrderStatus = SD.StatusApproved;
-            }
-
-            _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
-            _unitOfWork.Save();
-
-            foreach (var cart in ShoppingCartVM.ShoppingCartList)
-            {
-                OrderDetail orderDetail = new()
+                if (applicationUser.CompanyId.GetValueOrDefault() == 0)
                 {
-                    ProductId = cart.ProductId,
-                    OrderHeaderId = ShoppingCartVM.OrderHeader.Id,
-                    Price = cart.Price,
-                    Count = cart.Count
-                };
-
-                _unitOfWork.OrderDetail.Add(orderDetail);
-                _unitOfWork.Save();
-            }
-
-            if (applicationUser.CompanyId.GetValueOrDefault() == 0)
-            {
-                var domain = Request.Scheme + "://" + Request.Host.Value + "/";
-                var options = new SessionCreateOptions
-                {
-                    SuccessUrl = domain + $"user/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
-                    CancelUrl = domain + "user/cart/index",
-                    LineItems = new List<SessionLineItemOptions>(),
-                    Mode = "payment",
-                };
-
-                foreach (var item in ShoppingCartVM.ShoppingCartList)
-                {
-                    var sessionLineItem = new SessionLineItemOptions
+                    var domain = Request.Scheme + "://" + Request.Host.Value + "/";
+                    var options = new SessionCreateOptions
                     {
-                        PriceData = new SessionLineItemPriceDataOptions
-                        {
-                            UnitAmount = (long)(item.Price * 100),
-                            Currency = "eur",
-                            ProductData = new SessionLineItemPriceDataProductDataOptions
-                            {
-                                Name = item.Product.Name
-                            }
-                        },
-                        Quantity = item.Count
+                        SuccessUrl = domain + $"user/cart/OrderConfirmation?id={ShoppingCartVM.OrderHeader.Id}",
+                        CancelUrl = domain + "user/cart/index",
+                        LineItems = new List<SessionLineItemOptions>(),
+                        Mode = "payment",
                     };
-                    options.LineItems.Add(sessionLineItem);
+
+                    foreach (var item in ShoppingCartVM.ShoppingCartList)
+                    {
+                        var sessionLineItem = new SessionLineItemOptions
+                        {
+                            PriceData = new SessionLineItemPriceDataOptions
+                            {
+                                UnitAmount = (long)(item.Price * 100),
+                                Currency = "eur",
+                                ProductData = new SessionLineItemPriceDataProductDataOptions
+                                {
+                                    Name = item.Product.Name
+                                }
+                            },
+                            Quantity = item.Count
+                        };
+                        options.LineItems.Add(sessionLineItem);
+                    }
+
+                    var service = new SessionService();
+                    Session session = service.Create(options);
+                    _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
+                    _unitOfWork.Save();
+                    Response.Headers.Add("Location", session.Url);
+
+                    return new StatusCodeResult(303);
                 }
-
-                var service = new SessionService();
-                Session session = service.Create(options);
-                _unitOfWork.OrderHeader.UpdateStripePaymentID(ShoppingCartVM.OrderHeader.Id, session.Id, session.PaymentIntentId);
-                _unitOfWork.Save();
-                Response.Headers.Add("Location", session.Url);
-
-                return new StatusCodeResult(303);
             }
-
-            return RedirectToAction(nameof(OrderConfirmation), new { id = ShoppingCartVM.OrderHeader.Id });
+            return RedirectToAction(nameof(Summary)/*, new { id = ShoppingCartVM.OrderHeader.Id }*/);
         }
 
         public IActionResult OrderConfirmation(int id)
