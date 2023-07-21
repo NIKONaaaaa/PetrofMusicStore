@@ -91,8 +91,23 @@
             ApplicationUser applicationUser = _unitOfWork.ApplicationUser.Get(u => u.Id == userId);
 
             //TODO: Add validation here
-            bool state = Validator.Parse(ShoppingCartVM.OrderHeader.EmailAddress, Validator.Email);
-            if (state)
+            Dictionary<string, string?> attributes = new() {
+                { "OrderHeader.Name", ShoppingCartVM.OrderHeader.Name },
+                { "OrderHeader.PhoneNumber", ShoppingCartVM.OrderHeader.PhoneNumber },
+                { "OrderHeader.EmailAddress", ShoppingCartVM.OrderHeader.EmailAddress },
+                { "OrderHeader.StreetAddress", ShoppingCartVM.OrderHeader.StreetAddress },
+                { "OrderHeader.City", ShoppingCartVM.OrderHeader.City },
+                { "OrderHeader.State", ShoppingCartVM.OrderHeader.State },
+                { "OrderHeader.PostalCode", ShoppingCartVM.OrderHeader.PostalCode } };
+            Dictionary<string, string> errorMap = Validator.Parse(attributes);
+            foreach ((string attribute, string value) in errorMap)
+            {
+                if (value != "Success")
+                {
+                    ModelState.AddModelError(attribute, value);
+                }
+            }
+            if (ModelState.IsValid)
             {
                 if (ShoppingCartVM.ShoppingCartList.Any(u => u.Product.InStock == false))
                 {
@@ -180,7 +195,13 @@
                     return new StatusCodeResult(303);
                 }
             }
-            return RedirectToAction(nameof(Summary)/*, new { id = ShoppingCartVM.OrderHeader.Id }*/);
+            foreach (var cart in ShoppingCartVM.ShoppingCartList)
+            {
+                cart.Price = GetPriceBasedOnQuantity(cart);
+                ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
+            }
+            return View(ShoppingCartVM);
+            //return RedirectToAction(nameof(Summary)/*, new { id = ShoppingCartVM.OrderHeader.Id }*/);
         }
 
         public IActionResult OrderConfirmation(int id)
