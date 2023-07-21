@@ -3,9 +3,9 @@
     using System.Text.RegularExpressions;
     public class Validator
     {
-        public readonly static string Regular = @"[!@#$%^&*()\-_=+;:\'<,>./?\\\|]+";
-        public readonly static string Email = @"^[A-Za-z]+[_.-]*?[A-Za-z]+[_.-]*?[A-Za-z]+@[A-Za-z]+-?[A-Za-z]+\.[A-Za-z]+-?[A-Za-z]+(\.[A-Za-z]+-?[A-Za-z]+)?";
-        public readonly static string Number = @"[\D]+";
+        private const string Regular = @"[!@#$%^&*()\-_=+;:\'<,>./?\\\|]+";
+        private const string Email = @"^[A-Za-z]+[_.-]*?[A-Za-z]+[_.-]*?[A-Za-z]+@[A-Za-z]+-?[A-Za-z]+\.[A-Za-z]+-?[A-Za-z]+(\.[A-Za-z]+-?[A-Za-z]+)?";
+        private const string Number = @"[\D]+";
         private const string err0 = "Success";
         private const string err1 = "This is a required field.";
         private const string err2 = "Field can not contain special characters.";
