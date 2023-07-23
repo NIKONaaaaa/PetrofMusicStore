@@ -42,9 +42,9 @@
                     UserName = "admin@petrofmusicstore.com",
                     Email = "admin@petrofmusicstore.com",
                     Name = "Slav Petrov",
-                    PhoneNumber = "",
-                    StreetAddress = "",
-                    State = "",
+                    PhoneNumber = "898",
+                    StreetAddress = "Address",
+                    State = "State",
                     PostalCode = "9300",
                     City = "Dobrich"
                 }, "qxe44Ftn71JK9lp").GetAwaiter().GetResult();
