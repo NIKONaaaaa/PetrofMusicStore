@@ -39,8 +39,8 @@
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "petrof.export.ltd@gmail.com",
-                    Email = "petrof.export.ltd@gmail.com",
+                    UserName = "admin@petrofmusicstore.com",
+                    Email = "admin@petrofmusicstore.com",
                     Name = "Slav Petrov",
                     PhoneNumber = "",
                     StreetAddress = "",
