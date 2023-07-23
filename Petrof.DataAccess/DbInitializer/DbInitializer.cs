@@ -47,7 +47,7 @@
                     State = "State",
                     PostalCode = "9300",
                     City = "Dobrich"
-                }, "qxe44Ftn71JK9lp").GetAwaiter().GetResult();
+                }, "qxe44Ftn71JK9lp*").GetAwaiter().GetResult();
 
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@petrofmusicstore.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
