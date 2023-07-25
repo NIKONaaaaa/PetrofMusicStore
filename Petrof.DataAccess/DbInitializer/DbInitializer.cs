@@ -39,8 +39,8 @@
 
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "admin@petrofmusicstore.com",
-                    Email = "admin@petrofmusicstore.com",
+                    UserName = "petrof.export.ltd@gmail.com",
+                    Email = "petrof.export.ltd@gmail.com",
                     Name = "Slav Petrov",
                     PhoneNumber = "898",
                     StreetAddress = "Address",
@@ -49,7 +49,7 @@
                     City = "Dobrich"
                 }, "qxe44Ftn71JK9lp*").GetAwaiter().GetResult();
 
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@petrofmusicstore.com");
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "petrof.export.ltd@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
             return;
