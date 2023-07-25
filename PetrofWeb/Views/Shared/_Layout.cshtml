@@ -60,9 +60,12 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="User" asp-controller="Home" asp-action="Faq">FAQ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Orders</a>
-                        </li>
+                        @if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Customer))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Admin" asp-controller="Order" asp-action="Index">Manage Orders</a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link" asp-area="User" asp-controller="Cart" asp-action="Index">
                                 @await Component.InvokeAsync("ShoppingCart")

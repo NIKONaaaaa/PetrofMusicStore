@@ -93,7 +93,8 @@
                                 </div>
                             </div>
                             @{
-                                var addToCartVisible = "display:block;";
+                                //var addToCartVisible = "display:block;"; - switch to this to reimplement button
+                                var addToCartVisible = "display:none;";
                             }
                             @if (Model.Product.InStock == false)
                             {
