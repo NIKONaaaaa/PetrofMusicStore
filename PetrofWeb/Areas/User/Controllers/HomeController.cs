@@ -31,19 +31,29 @@
             return View();
         }
 
-        public IActionResult ProductList(string? productType)
+        public IActionResult ProductList(string? productType, string? searchParam)
         {
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages").Where(u => u.InStock == true);
+
             if (productType != null && productType != "sold")
             {
                 productList = productList.Where(u => u.Category.Name == productType);
+
             }
             else if (productType == "sold")
             {
                 productList = _unitOfWork.Product.GetAll(includeProperties: "Category,Brand,ProductImages").Where(u => u.InStock == false);
             }
+
+            ViewData["CurrentFilter"] = searchParam;
+
+            if (!string.IsNullOrEmpty(searchParam))
+            {
+                productList = productList.Where(u => u.Name.Contains(searchParam));
+            }
+
             return View(productList);
-        }
+        }             
 
         public IActionResult Details(int productId)
         {

@@ -1,48 +1,74 @@
 ﻿@model IEnumerable<Product>
 
 <div class="row pb-3">
+    <div class="py-4">
+        <form method="get" class="searchForm" style="float: right;">
+            <input type="text" name="searchParam" value="@ViewData["CurrentFilter"]" placeholder="Search..." />
+            <button type="submit" asp-action="ProductList" class="btn btn-primary" style="border-radius: 12px;"><i class="bi bi-search"></i></button>
+        </form>
+    </div>
+    <div class="py-4" hidden>
+        <form method="post" class="searchForm" style="float: right;">
+            <input type="text" id="dynSearch" placeholder="jQuery..." />
+        </form>
+    </div>
     @foreach (var product in Model)
     {
         <div class="col-lg-3 col-sm-6">
             <div class="row p-2">
                 <div class="col-12 p-1">
-                    <div class="card border-0 p-3 shadow border-top border-5 rounded">
-                        @if (product.ProductImages != null && product.ProductImages.Count > 0)
-                        {
-                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
-                        }
-                        else
-                        {
-                            <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
-                        }
-                        <div class="card-body pb-0">
-                            <div class="pl-1">
-                                <p class="card-title h5 text-dark text-opacity-75 text-uppercase text-center">@product.Name</p>
+                    <container style="display:block;" id="product">
+                        <div class="card border-0 p-3 shadow border-top border-5 rounded">
+                            @if (product.ProductImages != null && product.ProductImages.Count > 0)
+                            {
+                                <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" />
+                            }
+                            else
+                            {
+                                <img src="https://placehold.co/500x600/png" class="card-img-top rounded" />
+                            }
+                            <div class="card-body pb-0">
+                                <div class="pl-1">
+                                    <p class="card-title h5 text-dark text-opacity-75 text-uppercase text-center" id="name">@product.Name</p>
+                                </div>
+                                <div class="pl-1">
+                                    @if (product.InStock == true)
+                                    {
+                                        <p class="text-dark text-opacity-75 text-center mb-0">
+                                            List Price:
+                                            <span>
+                                                @product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
+                                            </span>
+                                        </p>
+                                    }
+                                    else if (product.InStock == false)
+                                    {
+                                        <p class="text-dark text-opacity-75 text-center mb-0">Sold</p>
+                                    }
+                                </div>
                             </div>
-                            <div class="pl-1">
-                                @if (product.InStock == true)
-                                {
-                                    <p class="text-dark text-opacity-75 text-center mb-0">
-                                        List Price:
-                                        <span>
-                                            @product.Price.ToString("c", CultureInfo.CreateSpecificCulture("fr-FR"))
-                                        </span>
-                                    </p>
-                                }
-                                else if (product.InStock == false)
-                                {
-                                    <p class="text-dark text-opacity-75 text-center mb-0">Sold</p>
-                                }
+                            <div>
+                                <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control mt-4">
+                                    Details
+                                </a>
                             </div>
                         </div>
-                        <div>
-                            <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control mt-4">
-                                Details
-                            </a>
-                        </div>
-                    </div>
+                    </container>
                 </div>
             </div>
         </div>
     }
 </div>
+@section Scripts{
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#dynSearch").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#product *").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+}
