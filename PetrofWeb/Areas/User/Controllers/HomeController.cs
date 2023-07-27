@@ -38,7 +38,6 @@
             if (productType != null && productType != "sold")
             {
                 productList = productList.Where(u => u.Category.Name == productType);
-
             }
             else if (productType == "sold")
             {
