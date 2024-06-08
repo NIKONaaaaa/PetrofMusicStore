@@ -23,12 +23,12 @@
                         <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3" style="width:854px; height:477px;">
                             @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
                             {
-                                <div id="indicators" class="carousel slide" data-bs-interval="0">
+                                <div id="carouselExampleIndicators" class="carousel slide" data-bs-interval="0">
                                     <div class="carousel-indicators">
                                         @foreach (var imageWithIndex in Model.Product.ProductImages
                                        .Select((image, index) => new { Image = image, Index = index }))
                                         {
-                                            <button type="button" data-bs-target="#indicators" data-bs-slide-to="@imageWithIndex.Index"
+                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index"
                                                     class="@(imageWithIndex.Index==0?"active":"")" aria-current="true" aria-label="Slide 1"></button>
                                         }
                                     </div>
@@ -37,22 +37,7 @@
                                        .Select((image, index) => new { Image = image, Index = index }))
                                         {
                                             <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
-                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block hover-shadow" style="width:auto; height:477px; margin:auto;" data-bs-toggle="modal" data-bs-target="#modal">
-                                            </div>
-
-                                            <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-hidden="true">
-                                                <div class="modal-dialog modal-dialog-centered justify-content-center modal-fullscreen-md-down" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header" hidden>
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                <span aria-hidden="true">×</span>
-                                                            </button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <img src="@imageWithIndex.Image.ImageUrl" style="width:auto; height:720px;">
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                                <img src="@imageWithIndex.Image.ImageUrl" class="d-block" style="width:auto; height:477px; margin:auto;" alt="...">
                                             </div>
                                         }
                                     </div>
